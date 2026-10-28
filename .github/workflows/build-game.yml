@@ -130,7 +130,7 @@ jobs:
           - target: windows
             runs-on: windows-latest
           - target: macos
-            runs-on: macos
+            runs-on: macos-latest
           # TODO: Install XCode to build iOS
           # - target: ios
           #   runs-on: macos-latest
@@ -218,7 +218,7 @@ jobs:
         uses: actions/create-github-app-token@v3
         id: app_token
         with:
-          app-id: ${{ vars.APP_ID }}
+          client-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PEM }}
           owner: ${{ github.repository_owner }}
       - name: Checkout repo
