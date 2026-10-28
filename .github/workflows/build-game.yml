@@ -19,7 +19,7 @@ on:
 jobs:
 
   gather-changes:
-    runs-on: ubuntu-latest
+    runs-on: build-set
     outputs:
       trigger-build: ${{ steps.should-trigger.outputs.result }}
     steps:
@@ -53,7 +53,7 @@ jobs:
               || manual
 
   gather-tags:
-    runs-on: ubuntu-latest
+    runs-on: build-set
     outputs:
       primary: ${{ steps.build-tags.outputs.primary }}
       list: ${{ steps.build-tags.outputs.list }}
@@ -90,7 +90,7 @@ jobs:
   docker-image:
     needs: [gather-changes, gather-tags]
     if: needs.gather-changes.outputs.trigger-build == 'true'
-    runs-on: ubuntu-latest
+    runs-on: build-set
     permissions:
       contents: read
       packages: write
@@ -200,7 +200,7 @@ jobs:
   build-game-in-container:
     needs: [gather-tags, docker-image]
     if: ${{ ! cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: build-set
     container: ghcr.io/funkincrew/build-dependencies:${{ needs.gather-tags.outputs.primary }}
     strategy:
       matrix:
